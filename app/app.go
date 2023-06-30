@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"fmt"
@@ -31,6 +31,8 @@ func InitServer(cfg config.Config) Server {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// postgres.InitGorm()
 
 	return &server{
 		httpServer: e,

@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	"github.com/labstack/gommon/log"
+	"self-payrol/app"
 	"self-payrol/config"
 	"sync"
+
+	"github.com/joho/godotenv"
+	"github.com/labstack/gommon/log"
 )
 
 func main() {
@@ -15,7 +17,7 @@ func main() {
 	log.Infof("read .env from file")
 
 	config := config.NewConfig()
-	server := InitServer(config)
+	server := app.InitServer(config)
 
 	wg := sync.WaitGroup{}
 

@@ -1,13 +1,14 @@
 package delivery
 
 import (
-	validation "github.com/go-ozzo/ozzo-validation"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"self-payrol/helper"
 	"self-payrol/model"
 	"self-payrol/request"
 	"strconv"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/labstack/echo/v4"
 )
 
 type userDelivery struct {
@@ -56,7 +57,6 @@ func (p *userDelivery) StoreUserHandler(c echo.Context) error {
 
 	if err := c.Bind(&req); err != nil {
 		return helper.ResponseValidationErrorJson(c, "Error binding struct", err.Error())
-
 	}
 
 	if err := req.Validate(); err != nil {
