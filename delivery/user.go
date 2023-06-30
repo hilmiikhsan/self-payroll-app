@@ -77,7 +77,10 @@ func (p *userDelivery) DetailUserHandler(c echo.Context) error {
 
 	id := c.Param("id")
 
-	IdInt, _ := strconv.Atoi(id)
+	IdInt, err := strconv.Atoi(id)
+	if err != nil {
+		return helper.ResponseErrorJson(c, http.StatusBadRequest, err)
+	}
 
 	user, err := p.userUsecase.GetByID(ctx, IdInt)
 	if err != nil {

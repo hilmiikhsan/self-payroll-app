@@ -17,9 +17,17 @@ func NewUserRepository(cfg config.Config) model.UserRepository {
 func (p *userRepository) FindByID(ctx context.Context, id int) (*model.User, error) {
 
 	// TODO: buat fungsi untuk mencari user berdasarkan ID pada parameter
+	user := &model.User{}
 
-	panic("implement me ")
+	err := p.Cfg.Database().WithContext(ctx).
+		Preload("Position").
+		Where("id = ?", id).
+		First(&user).Error
+	if err != nil {
+		return nil, err
+	}
 
+	return user, nil
 }
 
 func (p *userRepository) Create(ctx context.Context, user *model.User) (*model.User, error) {
