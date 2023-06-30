@@ -24,9 +24,12 @@ func (p *userRepository) FindByID(ctx context.Context, id int) (*model.User, err
 
 func (p *userRepository) Create(ctx context.Context, user *model.User) (*model.User, error) {
 	// TODO: buat fungsi untuk membuat user berdasarkan struct parameter
+	err := p.Cfg.Database().WithContext(ctx).Create(&user).Error
+	if err != nil {
+		return nil, err
+	}
 
-	panic("implement me ")
-
+	return user, nil
 }
 
 func (p *userRepository) UpdateByID(ctx context.Context, id int, user *model.User) (*model.User, error) {

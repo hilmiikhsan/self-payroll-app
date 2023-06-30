@@ -3,9 +3,10 @@ package usecase
 import (
 	"context"
 	"errors"
-	"gorm.io/gorm"
 	"self-payrol/model"
 	"self-payrol/request"
+
+	"gorm.io/gorm"
 )
 
 type userUsecase struct {
@@ -109,7 +110,6 @@ func (p *userUsecase) StoreUser(ctx context.Context, req *request.UserRequest) (
 	}
 
 	user, err := p.userRepository.Create(ctx, newUser)
-
 	if err != nil {
 		return nil, err
 	}
