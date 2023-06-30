@@ -52,5 +52,15 @@ func (p *positionRepository) Delete(ctx context.Context, id int) error {
 func (p *positionRepository) Fetch(ctx context.Context, limit, offset int) ([]*model.Position, error) {
 
 	// TODO: Buat fungsi untuk mendapatkan data position berdasarkan parameter
-	panic("impelement me")
+	data := []*model.Position{}
+
+	err := p.Cfg.Database().WithContext(ctx).
+		Limit(limit).
+		Offset(offset).
+		Find(&data).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }
