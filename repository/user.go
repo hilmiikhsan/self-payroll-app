@@ -42,9 +42,15 @@ func (p *userRepository) Create(ctx context.Context, user *model.User) (*model.U
 
 func (p *userRepository) UpdateByID(ctx context.Context, id int, user *model.User) (*model.User, error) {
 	// TODO: buat fungsi untuk update user berdasarkan struct parameter
+	err := p.Cfg.Database().WithContext(ctx).
+		Model(&model.User{}).
+		Where("id = ?", id).
+		Updates(user)
+	if err != nil {
+		return nil, err.Error
+	}
 
-	panic("implement me ")
-
+	return user, nil
 }
 
 func (p *userRepository) Delete(ctx context.Context, id int) error {
