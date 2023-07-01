@@ -62,6 +62,7 @@ func (c *companyRepository) DebitBalance(ctx context.Context, amount int, note s
 	}
 
 	// TODO: tuliskan baris code untuk mengurangi balance
+	company.Balance -= amount
 
 	if err := c.Cfg.Database().WithContext(ctx).Model(company).Updates(company).Find(company).Error; err != nil {
 		return err

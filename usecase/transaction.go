@@ -21,5 +21,4 @@ func (t *transactionUsecase) Fetch(ctx context.Context, limit, offset int) ([]*m
 	}
 
 	return transations, http.StatusOK, err
-
 }
