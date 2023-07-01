@@ -28,22 +28,29 @@ func (c *companyRepository) Get(ctx context.Context) (*model.Company, error) {
 }
 
 func (c *companyRepository) CreateOrUpdate(ctx context.Context, company *model.Company) (*model.Company, error) {
-
 	companyModel := new(model.Company)
 
-	if err := c.Cfg.Database().WithContext(ctx).Debug().
-		First(&companyModel).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			if err := c.Cfg.Database().WithContext(ctx).Create(&company).Find(companyModel).Error; err != nil {
-				return nil, err
+	err := c.Cfg.Database().WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err := tx.First(companyModel).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				if err := tx.Create(company).Error; err != nil {
+					return err
+				}
+				return tx.First(companyModel).Error
 			}
-
-			return companyModel, nil
+			return err
 		}
+
+		// TODO: tuliskan baris code untuk update data company
+		if err := tx.Model(companyModel).Updates(company).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+
+	if err != nil {
 		return nil, err
 	}
-
-	// TODO: tuliskan baris code untuk update data company
 
 	return companyModel, nil
 }
