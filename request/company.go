@@ -23,6 +23,11 @@ func (req TopupCompanyBalance) Validate() error {
 	)
 }
 
-func (req CompanyRequest) Validate() error {
-	return nil
+func (req CompanyRequest) Validate() interface{} {
+	return validation.ValidateStruct(
+		&req,
+		validation.Field(&req.Name, validation.Required),
+		validation.Field(&req.Balance, validation.Required),
+		validation.Field(&req.Address, validation.Required),
+	)
 }

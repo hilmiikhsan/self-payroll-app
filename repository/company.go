@@ -86,10 +86,10 @@ func (c *companyRepository) AddBalance(ctx context.Context, balance int) (*model
 	}
 
 	// TODO: tuliskan baris code untuk topup balance
+	company.Balance += balance
 
 	if err := c.Cfg.Database().WithContext(ctx).Model(company).Updates(company).Find(company).Error; err != nil {
 		return nil, err
-
 	}
 
 	if err := c.Cfg.Database().WithContext(ctx).Create(&model.Transaction{

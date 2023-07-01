@@ -73,6 +73,15 @@ func (comp *companyDelivery) TopupBalanceHandler(e echo.Context) error {
 	//TODO: lakukan validasi request disini
 	var req request.TopupCompanyBalance
 
+	if err := e.Bind(&req); err != nil {
+		return helper.ResponseValidationErrorJson(e, "Error binding struct", err.Error())
+	}
+
+	if err := req.Validate(); err != nil {
+		errVal := err.(validation.Errors)
+		return helper.ResponseValidationErrorJson(e, "Error validation", errVal)
+	}
+
 	company, i, err := comp.companyUsecase.TopupBalance(ctx, req)
 	if err != nil {
 		return helper.ResponseErrorJson(e, i, err)
